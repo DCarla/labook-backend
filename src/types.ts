@@ -10,3 +10,12 @@ export type UserDB = {
   role: TipoDeUsuario;
   created_at: string;
 };
+
+export interface postsDB {
+  id: string;
+  creator_id: string;
+  content: string;
+  likes: number;
+  dislikes: number;
+  updated_at: string;
+}
