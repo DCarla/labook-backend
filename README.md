@@ -7,16 +7,17 @@ Link da documentação
 https://documenter.getpostman.com/view/27687058/2s9Xy5Kpgv
 
 
-Conteúdos abordados
-NodeJS
-Typescript
-Express
-SQL e SQLite
-Knex
-POO
-Arquitetura em camadas
-Geração de UUID
-Geração de hashes
-Autenticação e autorização
-Roteamento
-Postman
+Conteúdos abordados:
+
+> NodeJS
+> Typescript
+> Express
+> SQL e SQLite
+> Knex
+> POO
+> Arquitetura em camadas
+> Geração de UUID
+> Geração de hashes
+> Autenticação e autorização
+> Roteamento
+> Postman
