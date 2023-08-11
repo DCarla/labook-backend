@@ -84,52 +84,39 @@ export class PostDatabase extends BaseDataBase {
     return result as PostDBWithCreatorName | undefined;
   };
 
-  public findLikeDislikePost = async (
-    likeDislikeDB: LikeDislikeDB
-  ): Promise<POST_LIKE | undefined> => {
-    const [result] = await BaseDataBase.connection(
-      PostDatabase.TABLE_LIKES_DISLIKES
-    ).where({
-      user_id: likeDislikeDB.user_id,
-      post_id: likeDislikeDB.post_id,
+  async findLikeDislike(userId: string, postId: string) {
+    return await BaseDataBase.connection("like_deslike")
+      .where({
+        user_id: userId,
+        post_id: postId,
+      })
+      .first();
+  }
+
+  async insertLikeDislike(userId: string, postId: string, like: number) {
+    await this.deleteLikeDislike(userId, postId);
+
+    await BaseDataBase.connection("like_deslike").insert({
+      user_id: userId,
+      post_id: postId,
+      like: like,
     });
-
-    if (result === undefined) {
-      return undefined;
-    } else if (result.like === 1) {
-      return POST_LIKE.ALREADY_LIKED;
-    } else {
-      return POST_LIKE.ALREADY_DISLIKED;
-    }
-  };
-
-  public removeLikeOrDislike = async (
-    likeDislikeDB: LikeDislikeDB
-  ): Promise<void> => {
-    await BaseDataBase.connection(PostDatabase.TABLE_LIKES_DISLIKES)
-      .del()
+  }
+  async updateLikeDislike(userId: string, postId: string, like: number) {
+    await BaseDataBase.connection("like_deslike")
       .where({
-        user_id: likeDislikeDB.user_id,
-        post_id: likeDislikeDB.post_id,
-      });
-  };
+        user_id: userId,
+        post_id: postId,
+      })
+      .update({ like: like });
+  }
 
-  public updateLikeOrDislike = async (
-    likeDislikeDB: LikeDislikeDB
-  ): Promise<void> => {
-    await BaseDataBase.connection(PostDatabase.TABLE_LIKES_DISLIKES)
-      .update(likeDislikeDB)
+  async deleteLikeDislike(userId: string, postId: string) {
+    await BaseDataBase.connection("like_deslike")
       .where({
-        user_id: likeDislikeDB.user_id,
-        post_id: likeDislikeDB.post_id,
-      });
-  };
-
-  public insertLikeOrDislike = async (
-    likeOrDislikeDB: LikeDislikeDB
-  ): Promise<void> => {
-    await BaseDataBase.connection(PostDatabase.TABLE_LIKES_DISLIKES).insert(
-      likeOrDislikeDB
-    );
-  };
+        user_id: userId,
+        post_id: postId,
+      })
+      .del();
+  }
 }
