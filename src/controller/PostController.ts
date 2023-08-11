@@ -109,17 +109,19 @@ export class PostsController {
       });
 
       const output = await this.postBusiness.likeOrDislikePost(input);
-
-      res.status(200).send(output);
+      console.log(output);
+      res
+        .status(200)
+        .send({ message: "Likes e dislikes efetuado com sucesso" });
     } catch (error) {
       console.log(error);
 
-      if (error instanceof ZodError) {
-        res.status(400).send(error.issues);
-      } else if (error instanceof BaseError) {
+      if (error instanceof BaseError) {
         res.status(error.statusCode).send(error.message);
+      } else if (error instanceof ZodError) {
+        res.status(400).send(error.issues);
       } else {
-        res.status(500).send("Unexpected Error");
+        res.status(500).send("Unexpected error");
       }
     }
   };

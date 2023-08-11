@@ -42,12 +42,15 @@ CREATE TABLE posts(
         ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES posts(id)
         ON UPDATE CASCADE
-        ON DELETE CASCADE
+        ON DELETE CASCADE;
   
     );
 
    INSERT  INTO posts(id, content, likes, dislikes, creator_id)
         VALUES ('P001', 'Conteudo sobre dogs',0,0, 'U001');
+
+    select * from like_deslike;
+         
   
    
 
